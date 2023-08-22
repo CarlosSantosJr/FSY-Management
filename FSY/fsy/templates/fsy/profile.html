@@ -1,0 +1,238 @@
+{% extends 'base.html' %}
+
+{% block body %}
+  <div class="container py-2">
+    <form method="POST">
+      <div class="row">
+        <div class="col-lg-4">
+
+          <!-- Photo -->
+          <div class="card mb-4">
+            <div class="card-body text-center">
+              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+                class="rounded-circle img-fluid" style="width: 150px;">
+            </div>
+            <button class="btn btn-primary">Editar Foto</button>
+          </div>
+
+          <!-- Check boxes -->
+          {% if profile_type == 'participante' %}
+            <div class="card mb-4 mb-lg-0">
+              <div class="card-body justify-content-center">
+                <div class="form-check">
+                  {% if profile['checked_in'] == 'SIM' %}
+                    <input class="form-check-input" type="checkbox" name="checked_in" checked>
+                  {% else %}
+                    <input class="form-check-input" type="checkbox" name="checked_in">
+                  {% endif %}
+                  <label class="form-check-label">
+                    Check-In
+                  </label>
+                </div>
+                <div class="form-check">
+                  {% if profile['kit'] == 'SIM' %}
+                    <input class="form-check-input" type="checkbox" name="kit" checked>
+                  {% else %}
+                    <input class="form-check-input" type="checkbox" name="kit">
+                  {% endif %}
+                  <label class="form-check-label">
+                    Kit
+                  </label>
+                </div>
+                <div class="form-check">
+                  {% if profile['shirt'] == 'SIM' %}
+                    <input class="form-check-input" type="checkbox" name="shirt" checked>
+                  {% else %}
+                    <input class="form-check-input" type="checkbox" name="shirt">
+                  {% endif %}
+                  <label class="form-check-label">
+                    Camiseta
+                  </label>
+                </div>
+                <div class="form-check">
+                  {% if profile['name_tag'] == 'SIM' %}
+                    <input class="form-check-input" type="checkbox" name="name_tag" checked>
+                  {% else %}
+                    <input class="form-check-input" type="checkbox" name="name_tag">
+                  {% endif %}
+                  <label class="form-check-label">
+                    Crachá
+                  </label>
+                </div>
+                <div class="form-check">
+                  {% if profile['varieties_show'] == 'SIM' %}
+                    <input class="form-check-input" type="checkbox" name="varieties_show" checked>
+                  {% else %}
+                    <input class="form-check-input" type="checkbox" name="varieties_show">
+                  {% endif %}
+                  <label class="form-check-label">
+                    Show de Variedades
+                  </label>
+                </div>
+                <div class="form-check">
+                  {% if profile['musical_program'] == 'SIM' %}
+                    <input class="form-check-input" type="checkbox" name="musical_program" checked>
+                  {% else %}
+                    <input class="form-check-input" type="checkbox" name="musical_program">
+                  {% endif %}
+                  <label class="form-check-label">
+                    Programa Musical
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- QR Code -->
+            <div class="card mb-4 mb-lg-0">
+              <div class="card-body text-center">
+                <img src="{{ qrcode(code) }}" class="img-fluid" style="width: 150px;">
+              </div>
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Data input -->
+        <div class="col-lg-8">
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Nome</p>
+                </div>
+                <div class="col-sm-9">
+                  <input class="form-control" type="text" name="name" value="{{ profile['name'] }}">
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Companhia</p>
+                </div>
+                <div class="col-sm-9">
+                  <input class="form-control" type="text" name="company" value="{{ profile['company'] }}">
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Camiseta</p>
+                </div>
+                <div class="col-sm-9">
+                  <select class="form-select" name="shirt_size">
+                    {% if profile['shirt_size'] not in ['GGG', 'GG', 'G', 'M', 'P'] %}
+                      <option value="" selected></option>
+                    {% endif %}
+                    {% if profile['shirt_size'] == 'GGG' %}
+                      <option value="GGG" selected>GGG</option>
+                    {% else %}
+                      <option value="GGG">GGG</option>
+                    {% endif %}
+                    {% if profile['shirt_size'] == 'GG' %}
+                      <option value="GG" selected>GG</option>
+                    {% else %}
+                      <option value="GG">GG</option>
+                    {% endif %}
+                    {% if profile['shirt_size'] == 'G' %}
+                      <option value="G" selected>G</option>
+                    {% else %}
+                      <option value="G">G</option>
+                    {% endif %}
+                    {% if profile['shirt_size'] == 'M' %}
+                      <option value="M" selected>M</option>
+                    {% else %}
+                      <option value="M">M</option>
+                    {% endif %}
+                    {% if profile['shirt_size'] == 'P' %}
+                      <option value="P" selected>P</option>
+                    {% else %}
+                      <option value="P">P</option>
+                    {% endif %}
+                  </select>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Hotel</p>
+                </div>
+                <div class="col-sm-9">
+                  <input class="form-control" type="text" name="hotel" value="{{ profile['hotel'] }}">
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Quarto</p>
+                </div>
+                <div class="col-sm-9">
+                  <input class="form-control" type="text" name="room" value="{{ profile['room'] }}">
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Idade</p>
+                </div>
+                <div class="col-sm-9">
+                  <input class="form-control" type="number" name="age" value="{{ profile['age'] }}">
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Gender</p>
+                </div>
+                <div class="col-sm-9">
+                  <select class="form-select" name="gender">
+                    {% if profile['gender'] == 'M' %}
+                      <option value="M" selected>Masculino</option>
+                      <option value="F">Feminino</option>
+                    {% else %}
+                      <option value="M">Masculino</option>
+                      <option value="F" selected>Feminino</option>
+                    {% endif %}
+                  </select>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Estaca</p>
+                </div>
+                <div class="col-sm-9">
+                  <input class="form-control" type="text" name="stake" value="{{ profile['stake'] }}">
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Ala</p>
+                </div>
+                <div class="col-sm-9">
+                  <input class="form-control" type="text" name="ward" value="{{ profile['ward'] }}">
+                </div>
+              </div>
+            </div>
+            <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">CPF</p>
+                </div>
+                <div class="col-sm-9">
+                  <input class="form-control" type="text" name="document" value="{{ profile['document'] }}">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Button Save -->
+          <div class="mt-4 pt-2">
+            <input class="btn btn-primary btn-lg" type="submit" value="Salvar alterações" />
+          </div>
+        </div>
+
+      </div>
+    </form>
+  </div>
+{% endblock %}
+

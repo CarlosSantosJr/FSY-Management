@@ -1,0 +1,281 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Registrar{% endblock %}</h1>
+{% endblock %}
+
+{% block body %}
+  <div class="container py-2 h-100">
+    <div class="row justify-content-center align-items-center h-100">
+      <div class="col-12 col-lg-9 col-xl-7">
+        <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+          <div class="card-body p-4 p-md-5">
+            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 text-center">Cadastrar</h3>
+
+            <!-- select type -->
+            {% if profile_type == None %}
+              <form method="POST">
+                <div class="row">
+                  <div class="col-md-8 mb-4">
+
+                    <h6 class="col">Selecione: </h6>
+
+                    <div class="col form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="inlineRadioOptions"value="1" checked />
+                      <label class="form-check-label">Participante</label>
+                    </div>
+
+                    <div class="col form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="inlineRadioOptions" value="2" />
+                      <label class="form-check-label">Consultor</label>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="row justify-content-center">
+                  <input class="btn btn-primary" type="submit" value="Continuar" />
+                </div>  
+              </form>
+
+            {% else %}
+
+              <!-- register depending on the type -->
+              <form method="POST">
+
+                <!-- NAME -->
+                <div class="row">
+                  <div class="col">
+                    <div class="form-outline">
+                      <input class="form-control" type="text" name="name" />
+                      <label class="form-label">Nome</label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- AGE AND GENDER -->
+                <div class="row">
+                  <div class="col">
+                    <div class="form-outline">
+                      <input class="form-control" type="number" name="age" />
+                      <label class="form-label">Idade</label>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <h6 class="mb-2 pb-1">Sexo: </h6>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="genderRadio" value="M" checked />
+                      <label class="form-check-label">Masculino</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="genderRadio" value="F" />
+                      <label class="form-check-label">Feminino</label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- HOTEL AND ROOM -->
+                <div class="row">
+                  <div class="col">
+                    <div class="form-outline">
+                      <select class="form-select" name="hotel">
+                        <option value="" selected></option>
+                          <option value="NACIONAL INN">NACIONAL INN</option>
+                          <option value="GOLDEN PARK">GOLDEN PARK</option>
+                      </select>
+                      <label class="form-label">Hotel</label>
+                    </div>
+                  </div>
+
+                  <div class="col">
+                    <div class="form-outline">
+                      <input class="form-control" type="text" name="room" />
+                      <label class="form-label">Quarto</label>
+                    </div>
+                  </div>
+
+                  <div class="col">
+                    <div class="form-outline">
+                      <select class="form-select" name="company">
+                        <option value="" selected></option>
+                        {% for company in companies %}
+                          <option value="{{ company['id'] }}">{{ company['id'] }}</option>
+                        {% endfor %}
+                      </select>
+                      <label class="form-label">Companhia</label>
+                    </div>
+                  </div>
+                </div>
+
+                
+                {% if profile_type == 'lider' %}
+                <!-- LIDER - TELEPHONE AND RESPONSABILITY LEVEL -->
+                  <div class="row">
+                    <div class="col">
+                      <div class="form-outline">
+                        <input class="form-control" type="text" name="telephone" />
+                        <label class="form-label">DDD + Telefone</label>
+                      </div>
+                    </div>
+
+                    <div class="col">
+                      <div class="form-outline">
+                        <select class="form-select" name="responsability">
+                          <option value="CONSULTOR" selected>Consultor</option>
+                          <option value="COORDENADOR">Coordenador Assistente</option>
+                          <option value="ADMINISTRADOR">Administrador</option>
+                        </select>
+                        <label class="form-label">Responsabilidade</label>
+                      </div>
+                    </div>
+                  </div>
+
+                <!-- LIDER - USERNAME AND PASSWORD -->
+                  <div class="row">
+                      <div class="col">
+                        <div class="form-outline">
+                          <input class="form-control" type="text" name="username" />
+                          <label class="form-label">Usuário</label>
+                        </div>
+                      </div>
+
+                      <div class="col">
+                        <div class="form-outline">
+                          <input class="form-control" type="password" name="password" />
+                          <label class="form-label">Senha</label>
+                        </div>
+                      </div>
+                    </div>
+                {% else %}
+                  <div class="row">
+                    <div class="col">
+                      <div class="form-outline">
+                        <input class="form-control" type="text" name="stake" />
+                        <label class="form-label">Estaca</label>
+                      </div>
+                    </div>
+
+                    <div class="col">
+                      <div class="form-outline">
+                        <input class="form-control" type="text" name="ward" />
+                        <label class="form-label">Ala</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col">
+                      <div class="form-outline">
+                        <input class="form-control" type="text" name="document" />
+                        <label class="form-label">CPF</label>
+                      </div>
+                    </div>
+
+                    <div class="col">
+                      <div class="form-outline">
+                        <select class="form-select" name="shirt_size">
+                          <option value="" selected></option>
+                          <option value="P">P</option>
+                          <option value="M">M</option>
+                          <option value="G">G</option>
+                          <option value="GG">GG</option>
+                          <option value="GGG">GGG</option>
+                        </select>
+                        <label class="form-label">Tamanho Camiseta</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row pb-2">
+
+                    <div class="col">
+                      <label class="form-check-label row">Check-in:</label>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="checkin" value="SIM" checked>
+                        <label class="form-check-label">Sim</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="checkin" value="NAO">
+                        <label class="form-check-label">Não</label>
+                      </div>
+                    </div>
+
+                    <div class="col">
+                      <label class="form-check-label row">Kit:</label>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="kit" value="SIM">
+                        <label class="form-check-label">Sim</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="kit" value="NAO" checked>
+                        <label class="form-check-label">Não</label>
+                      </div>
+                    </div>
+
+                    <div class="col">
+                      <label class="form-check-label row">Camiseta:</label>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="shirt" value="SIM">
+                        <label class="form-check-label">Sim</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="shirt" value="NAO" checked>
+                        <label class="form-check-label">Não</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col">
+                      <label class="form-check-label row">Crachá:</label>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="nametag" value="SIM">
+                        <label class="form-check-label">Sim</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="nametag" value="NAO" checked>
+                        <label class="form-check-label">Não</label>
+                      </div>
+                    </div>
+
+                    <div class="col">
+                      <label class="form-check-label row">Show de Variedades:</label>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="show" value="SIM">
+                        <label class="form-check-label">Sim</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="show" value="NAO" checked>
+                        <label class="form-check-label">Não</label>
+                      </div>
+                    </div>
+
+                    <div class="col">
+                      <label class="form-check-label row">Programa Musical:</label>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="music" value="SIM">
+                        <label class="form-check-label">Sim</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="music" value="NAO" checked>
+                        <label class="form-check-label">Não</label>
+                      </div>
+                    </div>
+
+                  </div>
+                {% endif %}
+
+                <!-- BUTTON REGISTER -->
+                <div class="mt-4 pt-2">
+                  <input class="btn btn-primary btn-lg" type="submit" value="Cadastrar" />
+                </div>
+
+              </form>
+
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

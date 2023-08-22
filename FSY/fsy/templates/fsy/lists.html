@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Listas{% endblock %}</h1>
+{% endblock %}
+
+{% block body %}
+  <div class="container justify-content-center">
+    <!-- Search Bar -->
+    <form method="POST">
+      <div class="row">
+        <div class="col-md-3 mb-4">
+          <select class="form-select" name="select">
+            <option value="name" selected>NOME</option>
+            <option value="id">ID</option> 
+            <option value="company_id">COMPANHIA</option>
+            {% if profile_type == 'participantes' %}
+              <option value="stake">ESTACA</option>
+            {% endif %}
+          </select> 
+        </div>
+        <div class="col-md-8 mb-4">
+          <div class="form-outline">
+              <input name="search" type="search" class="form-control" />
+          </div>
+        </div>
+        <div class="col-md-1 mb-4">
+          <button type="submit" class="btn btn-primary">Buscar</button>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      {% if profile_type == 'participantes' %}
+      <div class="row pb-2">
+
+        <h5>Filtros</h5>
+        
+        <div class="col">
+          <h6>Fez Check-in</h6>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="checkin" value="SIM">
+            <label class="form-check-label">Sim</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="checkin" value="NAO">
+            <label class="form-check-label">Não</label>
+          </div>
+        </div>
+
+        <div class="col">
+          <h6>Pegou Kit</h6>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="kit" value="SIM">
+            <label class="form-check-label">Sim</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="kit" value="NAO">
+            <label class="form-check-label">Não</label>
+          </div>
+        </div>
+
+        <div class="col">
+          <h6>Pegou Camiseta</h6>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="shirt" value="SIM">
+            <label class="form-check-label">Sim</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="shirt" value="NAO">
+            <label class="form-check-label">Não</label>
+          </div>
+        </div>
+
+        <div class="col">
+          <h6>Pegou Crachá</h6>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="nametag" value="SIM">
+            <label class="form-check-label">Sim</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="nametag" value="NAO">
+            <label class="form-check-label">Não</label>
+          </div>
+        </div>
+
+        <div class="col">
+          <h6>Tem companhia</h6>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="company" value="SIM">
+            <label class="form-check-label">Sim</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="company" value="NAO">
+            <label class="form-check-label">Não</label>
+          </div>
+        </div>
+
+        <div class="col">
+          <h6>Show de Variedades</h6>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="show" value="SIM">
+            <label class="form-check-label">Sim</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="show" value="NAO">
+            <label class="form-check-label">Não</label>
+          </div>
+        </div>
+
+        <div class="col">
+          <h6>Programa Musical</h6>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="music" value="SIM">
+            <label class="form-check-label">Sim</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="music" value="NAO">
+            <label class="form-check-label">Não</label>
+          </div>
+        </div>
+
+      </div>
+      {% endif %}
+    </form> 
+
+    <!-- table with content -->
+    {% if lists != None %}
+      <!-- List size -->
+      <div class="row">
+        <h6>Resultados obtidos: {{ length }}</h6>
+      </div>
+      <div class="row">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr class="text-center">
+                <th scope="col">ID</th>
+                <th scope="col">NOME</th>
+                <th scope="col">COMPANHIA</th>
+                {% if profile_type == 'participantes' %}
+                  <th scope="col">IDADE</th>
+                  <th scope="col">CHECK IN</th>
+                {% else %}
+                  <th scope="col">RESPONSABILIDADE</th>
+                  <th scope="col">USUARIO</th>
+                {% endif %}
+              </tr>
+            </thead>
+            <tbody">
+              {% for person in lists: %}
+                {% if profile_type == 'participantes' %}
+                  <tr class="text-center clickable" onclick="window.location='{{ url_for('fsy.profile', type='participante', id=person[0]) }}'">
+                {% else %}
+                  <tr class="text-center clickable" onclick="window.location='{{ url_for('fsy.profile', type='lider', id=person[0]) }}'">
+                {% endif %}
+                    <th scope="row">{{ person['id'] }}</th>
+                    <td>{{ person['name'] }}</td>
+                    <td>{{ person['company_id'] if person['company_id'] else '' }}</td>
+                    {% if profile_type == 'participantes' %}
+                      <td>{{ person['age'] if person['age'] else '' }}</td>                      
+                      <td>{{ person['checked_in'] if person['checked_in'] else '' }}</td>
+                    {% else: %}
+                      <td>{{ person['responsability_level'] if person['responsability_level'] else '' }}</td>
+                      <td>{{ person['username'] if person['username'] else '' }}</td>
+                    {% endif %}
+                  </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}
